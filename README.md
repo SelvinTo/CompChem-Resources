@@ -7,13 +7,20 @@
 </h2>
 This repository contains code useful for
 
-* **Computational Chemistry**
-  
-* **Density Functional Theory** (DFT)
-* **Machine Learning**
-* **Data Visualization**
 
 <br>
 
-### Computational Chemistry
-dafds
+* ### Computational Chemistry
+  Scripts useful for molecular simulations and usage of the Illinois School of Chemical Science HPC (High-Performance Computing) Cluster
+
+* ### Density Functional Theory (DFT)
+  Scripts useful for DFT calculation
+
+* ### Machine Learning
+  Implementations of linear regression, clustering, and other ML algorithms
+
+* ### Data Visualization
+  Generating plots and visualizing chemical data
+
+## Authors 
+Selvin Tobar & Antonio Laporte 

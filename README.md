@@ -31,3 +31,5 @@ This repository contains code useful for
 
 ## Authors 
 Selvin Tobar & Antonio Laporte 
+### Contributions
+Josh Berger

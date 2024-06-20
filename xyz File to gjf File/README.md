@@ -11,7 +11,12 @@
   
 **'.xyz'** files are simple text-based files that represent the atomic coordinates for a molecule. Programs that output '.xyz' files are those involved in exploring molecular modeling such as CREST (Conformer-Rotamer Ensemble Sampling Tool).
 
-**'.gjf'** files are used to run quantum chemistry calculations on Gaussian software
+**'.gjf'** files are used to run quantum chemistry calculations on Gaussian software  <br> <br>
+
+Sample Code is provided at **XYZ_to_GJF.ipynb** in the *xyz File to gjf File* folder 
+
+<br>
+<br>
 
 <details>
   <summary> Click to view Step by Step Instructions </summary>

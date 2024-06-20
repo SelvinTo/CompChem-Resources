@@ -15,6 +15,9 @@
 
 Sample Code is provided at **XYZ_to_GJF.ipynb** in the *xyz File to gjf File* folder 
 
+[link text](xyz File to gjf File/XYZ_to_GJF.ipynb)
+
+
 <br>
 <br>
 

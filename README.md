@@ -23,7 +23,12 @@ This repository contains code useful for
   Generating plots and visualizing chemical data
 
 <br>
+<div align="center">
 
+<img src="https://raw.githubusercontent.com/httpie/cli/master/docs/ml.gif" width="100%"/>
+
+
+</div>
 
 ## Authors 
 Selvin Tobar & Antonio Laporte 

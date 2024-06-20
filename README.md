@@ -24,9 +24,10 @@ This repository contains code useful for
 
 <br>
 <div align="center">
-
-<img src="https://raw.githubusercontent.com/httpie/cli/master/docs/ml.gif" width="100%"/>
-
+<kdb> 
+<img src="ml.gif" width="15%"/>
+</kdb>
+  <img src="ml.gif" width="15%"/>
 
 </div>
 

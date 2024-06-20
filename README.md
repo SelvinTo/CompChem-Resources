@@ -22,5 +22,8 @@ This repository contains code useful for
 * ### Data Visualization
   Generating plots and visualizing chemical data
 
+<br>
+
+
 ## Authors 
 Selvin Tobar & Antonio Laporte 

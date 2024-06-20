@@ -25,9 +25,7 @@ This repository contains code useful for
 <br>
 <div align="center">
 <kdb> 
-<img src="ml.gif" width="15%"/>
-</kdb>
-  <img src="ml.gif" width="15%"/>
+<img src="ml.gif" width="15%"/><img src="mlp.png" width="27%"/>
 
 </div>
 

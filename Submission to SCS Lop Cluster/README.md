@@ -23,10 +23,10 @@ This documentation is to help detail how to run Gaussian Jobs for both Windows a
   
   1. **Step 1**: Uploading a folder from local computer to your cluster folder.
      
-     a. Open Windows Powershell (type powershell in search bar) <br>
-     b. In the command line, type the following and press enter: scp -r [filelocation] netID@lop.scs.illinois.edu:/home/NetID <br>
-     C. You should be prompted with your netID password. Enter that into the command line. You should then see all the files successfully copied, as shown below <br>
-       
+     **a.** Open Windows Powershell (type powershell in search bar) <br>
+     **b.** In the command line, type the following and press enter: scp -r [filelocation] netID@lop.scs.illinois.edu:/home/NetID <br>
+     **C.** You should be prompted with your netID password. Enter that into the command line. You should then see all the files successfully copied, as shown below <br>
+   <img src="Screenshot 2024-07-22 113459.png" width="15%"/>    
     
 
   3. **Step 2**: Adjust any Gaussian Input parameters as neccesary. These two lines control the Method, Basis Set, and gaussian input.

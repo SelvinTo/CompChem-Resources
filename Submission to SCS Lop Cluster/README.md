@@ -23,32 +23,35 @@ This documentation is to help detail how to run Gaussian Jobs for both Windows a
   
   1. **Step 1**: Uploading a folder from local computer to your cluster folder.
      
-     **a.** Open Windows Powershell (type powershell in search bar) <br>
-     **b.** In the command line, type the following and press enter: scp -r [filelocation] netID@lop.scs.illinois.edu:/home/NetID <br>
-     **C.** You should be prompted with your netID password. Enter that into the command line. You should then see all the files successfully copied, as shown below <br>
-   <img src="Screenshot 2024-07-22 113459.png" width="15%"/>    
-    
+     **a.** Open Windows Powershell (type powershell in search bar) <br><br>
+     **b.** In the command line, type the following and press enter: *scp -r [local-filelocation] netID@lop.scs.illinois.edu:/home/NetID* <br><br>
+     **c.** You should be prompted with your netID password. Enter that into the command line. You should then see all the files successfully copied, as shown below <br>
+     <img src="Screenshot 2024-07-22 113459.png" width="90%"/>    
+     Tips:<br>
+-To copy just a single file and not a directory/folder, remove '-r' from the command line.<br><br>
+-To copy the local-filelocation of your folder/file, you can right click on the file and click "copy as path"
 
-  3. **Step 2**: Adjust any Gaussian Input parameters as neccesary. These two lines control the Method, Basis Set, and gaussian input.
+  2. **Step 2**: Connect to the cluster
      
-       ***Geometry Optimization*** can be perfomed at the PBE-D3(BJ)/6-31+G(d,p) level of theory. PBE-D3(BJ) being the method and 6-31+G(d,p) being the basis_set.
-
-       ***Single Point Energy Calculations*** can be perfomed at the PBE0-D3(BJ)/def2-TZVP level of theory. PBE0-D3(BJ) being the method and def2-TZVP being the basis_set.
-
-       Additional terms that can be appended at the end depending on usage included (***nmr=giao, prop=efg, pop=nbo, freq=noraman***)
-     
-     
-    def crest_xyz_to_gjf(xyz_file, output_folder, method='B3LYP', basis_set='6-31G(d)', charge=0, multiplicity=1):   #Can change Method/Basis_Set here
-
-    gjf_file.write(f'# opt freq {method}/{basis_set} empiricaldispersion=gd3bj integral=ultrafine \n\n')    #Gaussian Input_Line/Parameters 
-    
+      **a.** In the command line, type " *ssh -Y netID@lop.scs.illinois.edu* " <br><br>
+      **b.** You will then be prompted to enter your Illinois password <br><br>
+      **c.** If you see this window, that means you have successfully connected to the cluster!<br>
+ 
+      <img src="Screenshot 2024-07-22 113608.png" width="90%"/>  
   
-  4. **Step 3**: Example Usage 
+  3. **Step 3**: Submitting Jobs to the Cluster
+     
+      **a.** In the command line, type *ls* and press enter.This will show you all the files in your directory. You should see the folders that you uploaded to the cluster in the previous step  <br>
+      <img src="Screenshot 2024-07-22 113632.png" width="90%"/>  
 
-    xyz_file_path = 'Test.xyz'   #Put path to xyz file here
-    output_folder = 'Test.gjf'   #Put path to output folder here 
-    crest_xyz_to_gjf(xyz_file_path, output_folder)
-  
+     **b.** Type *cd [foldername]* to enter the folder you just uploaded. Type *ls* and press enter to see all the files within that folder. (This is not neccessary if only a single file was uploaded instead of a directory/folder.   <br>
+      <img src="Screenshot 2024-07-22 113658.png" width="90%"/>  
+ 
+     **c.** In the command line, type *module load gaussian/g16* and press enter<br><br>
+     Congrats! You are now ready to run gaussian job files (.gjf) <br><br>
+     **d.** In the command line, type *submit-g16 -n 16 -q [clustername] [filepath]* and press enter<br><br>
+     This command tells the computer to submit a guassian16 calculation with 16 cores to this processor, and the job file is found at this location <br>
+
 </details>
 <div>
 <details>

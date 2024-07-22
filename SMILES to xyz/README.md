@@ -88,7 +88,7 @@ The output xyz file should look something like this:
     # Read the Excel file
     df = pd.read_excel('example_smiles.xlsx')
     df.head(4)
-<img src="Screenshot 2024-07-22 140052.png" width="90%"/>  <br> 
+<img src="Screenshot 2024-07-22 142052.png" width="40%"/>  <br> 
 <div> 
    
     for _, row in df.iterrows():
@@ -100,6 +100,13 @@ The output xyz file should look something like this:
     
     # Convert SMILES to .xyz and save the file
     smiles_to_xyz(smiles, output_file)
-  
+<br>
+This will have converted all the SMILES string into their respective xyz files.   
+<h2 align="center">
+   The xyz files can then be opened in software like Avogadro to visualize the molecule or be converted into other file formats. <br><br>
+<img src="Screenshot 2024-06-21 at 12.26.24 PM.png" width="60%"/>  <br> 
+
+</h2>
+
 </div>  
 </details>

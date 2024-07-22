@@ -13,7 +13,7 @@
 
 **SMILES** strings are "Simplified Molecular Input Line Entry System" that are used to translate a chemical's three-dimensional structure into a string of symbols that is easily understood by computer software.  <br> <br>
 
-Sample Code is provided at **SMILES_to_xyz.ipynb** in the *SMILES to xyz* folder or click here [SMILES_to_xyz](https://github.com/SelvinTo/CompChem-Resources/blob/574c3a8b56e183f148e992afca3a438864fb602b/xyz%20File%20to%20gjf%20File/XYZ_to_GJF.ipynb)
+Sample Code is provided at **SMILES_to_xyz.ipynb** in the *SMILES to xyz* folder or click here [SMILES_to_xyz](https://github.com/SelvinTo/CompChem-Resources/blob/15850a64462448708b81373abd147e1497e90566/SMILES%20to%20xyz/SMILES_to_xyz.ipynb)
 
 <br>
 <br>

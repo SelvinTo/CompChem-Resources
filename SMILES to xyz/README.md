@@ -64,14 +64,42 @@ Sample Code is provided at **SMILES_to_xyz.ipynb** in the *SMILES to xyz* folder
     smiles_to_xyz(smiles_RuPhos, output_file)
   
 </div>
-The output xyz file should look like this:  
-    <img src="RuPhos.xyz" width="90%"/>  <br>
+The output xyz file should look something like this:  
+    <img src="Screenshot 2024-07-22 140052.png" width="90%"/>  <br>
 
+  <br>
   
-  4. **Step 3**: Example Usage 
+  4. **Step 3**: To convert multiple SMILES into '.xyz' files 
 
-    xyz_file_path = 'Test.xyz'   #Put path to xyz file here
-    output_folder = 'Test.gjf'   #Put path to output folder here 
-    crest_xyz_to_gjf(xyz_file_path, output_folder)
+<div> 
+   
+    pip install pandas
   
+</div>
+   
+    pip install openpyxl
+    
+<div> 
+   
+    import pandas as pd
+  
+</div>
+   
+    # Read the Excel file
+    df = pd.read_excel('example_smiles.xlsx')
+    df.head(4)
+<img src="Screenshot 2024-07-22 140052.png" width="90%"/>  <br> 
+<div> 
+   
+    for _, row in df.iterrows():
+    smile_num = row['Smile #']
+    smiles = row['smiles']
+    
+    # Generate the output file name
+    output_file = f'{smile_num}.xyz'
+    
+    # Convert SMILES to .xyz and save the file
+    smiles_to_xyz(smiles, output_file)
+  
+</div>  
 </details>

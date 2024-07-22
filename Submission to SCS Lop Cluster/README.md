@@ -50,7 +50,10 @@ This documentation is to help detail how to run Gaussian Jobs for both Windows a
      **c.** In the command line, type *module load gaussian/g16* and press enter<br><br>
      Congrats! You are now ready to run gaussian job files (.gjf) <br><br>
      **d.** In the command line, type *submit-g16 -n 16 -q [clustername] [filepath]* and press enter<br><br>
-     This command tells the computer to submit a guassian16 calculation with 16 cores to this processor, and the job file is found at this location <br>
+     - This command tells the computer to submit a guassian16 calculation with 16 cores to this processor, and the job file is found at this location <br>
+     - More information about the clustername can be found in the Cluster Queue Section; the filepath is the location of the file on your cluster directory. <br>
+       <img src="Screenshot 2024-07-22 113722.png" width="90%"/> 
+
 
 </details>
 <div>
@@ -63,4 +66,8 @@ This documentation is to help detail how to run Gaussian Jobs for both Windows a
 
     xyz_file_path = 'Test.xyz'   #Put path to xyz file here
     output_folder = 'Test.gjf'   #Put path to output folder here 
-    crest_xyz_to_gjf(xyz_file_path, output_folder)
+    crest_xyz_to_gjf(xyz_file_path, output_folder) <br>
+    </div>
+
+<details>
+  <summary> Click to view Cluster Queue Information </summary>

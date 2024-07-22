@@ -117,9 +117,12 @@ This documentation is to help detail how to run Gaussian Jobs for both Windows a
   <summary> Click to view Cluster Queue Information </summary>
 <br> 
 
-  **There is currently a 320 core per user limit enforced on Lop to ensure that resources are available to all. Each queue also has an individual limit.**   
+  **There is currently a 320 core per user limit enforced on Lop to ensure that resources are available to all. Each queue also has an individual limit.** <br>
+  
+  For the **ClusterName**, you will insert the name of one of the clusters shown below. ex *submit-g16 -n 16 -q **intel72smt** [filepath]* 
+
 <br>
-  *Each Gaussian submission takes 16 cores so distribute the job submissions evenly.*  
+  *Each Gaussian submission takes 16 cores so distribute the job submissions evenly if submitting multiple jobs.*  
 <h2 align="center">
   
 Queue Names 
@@ -131,5 +134,5 @@ Queue Names
 <br> 
 
 **You can check your core usage by typing qquota**  
-<img src="Screenshot 2024-07-22 131000.png" width="90%"/>
+<img src="Screenshot 2024-07-22 132716.png" width="90%"/>
 </div>

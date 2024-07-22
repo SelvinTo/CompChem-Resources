@@ -23,86 +23,50 @@ Sample Code is provided at **SMILES_to_xyz.ipynb** in the *SMILES to xyz* folder
   
   ## Instructions
   
-  1. **Step 1**: Copy the code as provided in XYZ_to_GJF.ipynb, this will convert a single '.xyz' file to a '.gjf' file.  
+  1. **Step 1**: Copy the code as provided in SMILES_to_xyz.ipynb, this will convert a single SMILES string into a single '.xyz' file 
 
-    import os
+<div> 
+   
+    pip install rdkit
+  
+</div>
+   
+    from rdkit import Chem 
 
-    def crest_xyz_to_gjf(xyz_file, output_folder, method='B3LYP', basis_set='6-31G(d)', charge=0, multiplicity=1):   #Can change Method/Basis_Set here
-      
-      """
-      Convert a CREST XYZ file with multiple conformers to separate Gaussian input (GJF) files,
-      and store them in a specified output folder.
-
-      Parameters:
-      xyz_file (str or file-like object): Path to the input CREST XYZ file or a file-like object.
-      output_folder (str): Path to the folder where the output GJF files will be saved.
-      method (str): The computational method to use in Gaussian (default: B3LYP).
-      basis_set (str): The basis set to use in Gaussian (default: 6-31G(d)).
-      charge (int): The total charge of the molecule (default: 0).
-      multiplicity (int): The multiplicity of the molecule (default: 1).
-      """
-     
-      # Create the output folder if it doesn't exist
-      if not os.path.exists(output_folder):
-          os.makedirs(output_folder)
-
-      # Open the XYZ file
-      if isinstance(xyz_file, str):
-          xyz_file = open(xyz_file, 'r')
-
-      lines = xyz_file.readlines()
-      xyz_file.close()
-
-      index = 0
-      num_lines = len(lines)
-      conformer_index = 0
-
-      while index < num_lines:
-          # Read number of atoms
-          num_atoms = int(lines[index].strip())
-          index += 1
-
-          # Read energy or comments
-          energy_or_comment = lines[index].strip()
-          index += 1
-
-          # Extract atomic coordinates for the conformer
-          atoms = []
-          for _ in range(num_atoms):
-              parts = lines[index].split()
-              element = parts[0]
-              x, y, z = map(float, parts[1:4])
-              atoms.append((element, x, y, z))
-              index += 1
-
-          # Write the GJF file for the current conformer
-          gjf_filename = os.path.join(output_folder, f"conformer_{conformer_index + 1}.gjf")
-          with open(gjf_filename, 'w') as gjf_file:
-              gjf_file.write('%mem=16GB\n')
-              gjf_file.write('%nprocshared=16\n')
-              gjf_file.write(f'# opt freq {method}/{basis_set} empiricaldispersion=gd3bj integral=ultrafine \n\n')    #Gaussian Input_Line/Parameters 
-              gjf_file.write(f'{energy_or_comment}\n\n')
-              gjf_file.write(f'{charge} {multiplicity}\n')
-              for atom in atoms:
-                  element, x, y, z = atom
-                  gjf_file.write(f'{element:>2}{x:>28.8f}{y:>14.8f}{z:>14.8f}\n')
-              gjf_file.write('\n')
-
-          conformer_index += 1
-
-  2. **Step 2**: Adjust any Gaussian Input parameters as neccesary. These two lines control the Method, Basis Set, and gaussian input.
-     
-       ***Geometry Optimization*** can be perfomed at the PBE-D3(BJ)/6-31+G(d,p) level of theory. PBE-D3(BJ) being the method and 6-31+G(d,p) being the basis_set.
-
-       ***Single Point Energy Calculations*** can be perfomed at the PBE0-D3(BJ)/def2-TZVP level of theory. PBE0-D3(BJ) being the method and def2-TZVP being the basis_set.
-
-       Additional terms that can be appended at the end depending on usage included (***nmr=giao, prop=efg, pop=nbo, freq=noraman***)
-     
-     
-    def crest_xyz_to_gjf(xyz_file, output_folder, method='B3LYP', basis_set='6-31G(d)', charge=0, multiplicity=1):   #Can change Method/Basis_Set here
-
-    gjf_file.write(f'# opt freq {method}/{basis_set} empiricaldispersion=gd3bj integral=ultrafine \n\n')    #Gaussian Input_Line/Parameters 
+<div> 
+   
+    from rdkit.Chem import AllChem
+  
+</div>
+   
+    def smiles_to_xyz(smiles, output_file):
+    mol = Chem.MolFromSmiles(smiles)
+    mol_h = Chem.AddHs(mol)  # Adding Hydrogens
+    AllChem.EmbedMolecule(mol_h, useExpTorsionAnglePrefs=True, useBasicKnowledge=True)
+    AllChem.MMFFOptimizeMolecule(mol_h) # Computing 3D coordinates
     
+    with open(output_file, 'w') as f:
+        f.write(f'{mol_h.GetNumAtoms()}\n')
+        f.write(f'Generated from SMILES: {smiles}\n')
+        conf = mol_h.GetConformer()
+        for i in range(mol_h.GetNumAtoms()):
+            atom = mol_h.GetAtomWithIdx(i)
+            symbol = atom.GetSymbol()
+            x, y, z = conf.GetAtomPosition(i)
+            f.write(f'{symbol:>2} {x:>18.8f} {y:14.8f} {z:>14.8f}\n')     
+    
+  2. **Step 2**: Input SMILE string to convert 
+<div> 
+   
+    smiles_RuPhos = 'CC(C)OC(C=CC=C1OC(C)C)=C1C(C=CC=C2)=C2P(C3CCCCC3)C4CCCCC4'  # Example SMILES string (Aspirin)
+    output_file = 'RuPhos.xyz'
+
+    smiles_to_xyz(smiles_RuPhos, output_file)
+  
+</div>
+The output xyz file should look like this:  
+    <img src="RuPhos.xyz" width="90%"/>  <br>
+
   
   4. **Step 3**: Example Usage 
 

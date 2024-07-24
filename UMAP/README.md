@@ -9,12 +9,9 @@
 
 <div>
   
-**'.xyz'** files are simple text-based files that represent the atomic coordinates for a molecule. Programs that output '.xyz' files are those involved in exploring molecular modeling such as CREST (Conformer-Rotamer Ensemble Sampling Tool).
+**UMAP** projections are a helpful way of visualizing data and is a type of dimensionality reduction. <br> <br>
 
-**SMILES** strings are "Simplified Molecular Input Line Entry System" that are used to translate a chemical's three-dimensional structure into a string of symbols that is easily understood by computer software.  <br> <br>
-
-Sample Code is provided at **UMAP.ipynb** in the *UMAP* folder or click here [SMILES_to_xyz](https://github.com/SelvinTo/CompChem-Resources/blob/15850a64462448708b81373abd147e1497e90566/SMILES%20to%20xyz/SMILES_to_xyz.ipynb)
-
+Sample Code is provided at **UMAP.ipynb** in the *UMAP* folder or click here [UMAP](https://github.com/SelvinTo/CompChem-Resources/blob/ac8fb2cefa1ec46270b0eea8b3e1e198def3ef9f/UMAP/UMAP.ipynb)
 <br>
 <br>
 
@@ -23,57 +20,95 @@ Sample Code is provided at **UMAP.ipynb** in the *UMAP* folder or click here [SM
   
   ## Instructions
   
-  1. **Step 1**: Copy the code as provided in SMILES_to_xyz.ipynb, this will convert a single SMILES string into a single '.xyz' file 
-
-<div> 
-   
-    pip install rdkit
-  
-</div>
-   
-    from rdkit import Chem 
-
-<div> 
-   
-    from rdkit.Chem import AllChem
-  
-</div>
-   
-    def smiles_to_xyz(smiles, output_file):
-    mol = Chem.MolFromSmiles(smiles)
-    mol_h = Chem.AddHs(mol)  # Adding Hydrogens
-    AllChem.EmbedMolecule(mol_h, useExpTorsionAnglePrefs=True, useBasicKnowledge=True)
-    AllChem.MMFFOptimizeMolecule(mol_h) # Computing 3D coordinates
-    
-    with open(output_file, 'w') as f:
-        f.write(f'{mol_h.GetNumAtoms()}\n')
-        f.write(f'Generated from SMILES: {smiles}\n')
-        conf = mol_h.GetConformer()
-        for i in range(mol_h.GetNumAtoms()):
-            atom = mol_h.GetAtomWithIdx(i)
-            symbol = atom.GetSymbol()
-            x, y, z = conf.GetAtomPosition(i)
-            f.write(f'{symbol:>2} {x:>18.8f} {y:14.8f} {z:>14.8f}\n')     
-    
-  2. **Step 2**: Input SMILE string to convert 
-<div> 
-   
-    smiles_RuPhos = 'CC(C)OC(C=CC=C1OC(C)C)=C1C(C=CC=C2)=C2P(C3CCCCC3)C4CCCCC4'  # Example SMILES string (Aspirin)
-    output_file = 'RuPhos.xyz'
-
-    smiles_to_xyz(smiles_RuPhos, output_file)
-  
-</div>
-The output xyz file should look something like this:  
-    <img src="Screenshot 2024-07-22 140052.png" width="90%"/>  <br>
-
-  <br>
-  
-  4. **Step 3**: To convert multiple SMILES into '.xyz' files 
+  1. **Step 1**: Copy the code as provided in UMAP.ipynb, this will create a UMAP projection of a list of SMILES. <br> <br> Install neccessary libraries.  
 
 <div> 
    
     pip install pandas
+  
+</div>
+   
+    pip install rdkit
+
+<div> 
+   
+    pip install umap-learn
+  
+</div>
+    
+    pip install matplotlib
+
+<div> 
+    
+    pip install openpyxl
+  
+</div>
+
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import ListedColormap,LinearSegmentedColormap
+    from sklearn.cluster import KMeans
+
+    from rdkit import Chem,Geometry
+    from rdkit.Chem import rdmolfiles, AllChem, rdMolAlign,rdmolops, Descriptors, Draw
+
+    from collections import Counter
+    from rdkit.Chem import AllChem
+    from rdkit import Chem, DataStructs
+    import numpy as np
+    import pandas as pd    
+    
+  2. **Step 2**: Create ECFP Calculator 
+<div> 
+   
+    #This calculates the molecular vectors from smiles strings
+    class ECFPCalculator:
+      def __init__(self, smiles):
+          self.mols = [Chem.MolFromSmiles(i) for i in smiles]
+          self.smiles = smiles
+
+      def mol2fp(self, mol, radius = 3):
+          fp = AllChem.GetMorganFingerprintAsBitVect(mol, radius = radius)
+          array = np.zeros((1,))
+          Chem.DataStructs.ConvertToNumpyArray(fp, array)
+          return array
+
+      def compute_ECFP6(self, name):
+          bit_headers = ['bit' + str(i) for i in range(2048)]
+          arr = np.empty((0,2048), int).astype(int)
+          for i in self.mols:
+              fp = self.mol2fp(i)
+              arr = np.vstack((arr, fp))
+          df_ecfp6 = pd.DataFrame(np.asarray(arr).astype(int),columns=bit_headers)
+          df_ecfp6.insert(loc=0, column='smiles', value=self.smiles)
+          df_ecfp6.to_csv(name[:-4]+'_ECFP6.csv', index=False)
+  
+
+  4. **Step 3**: Input SMILES 
+
+<div> 
+   
+    # Read the Excel file containing SMILES strings
+    df = pd.read_excel('UMAP_Test_Smiles.xlsx')
+
+    #Looks for a column named 'smiles' and converts it into a list
+    smiles_list = df['smiles'].tolist()
+
+    # Create an instance of the class with the SMILES strings
+    ecfp_calculator = ECFPCalculator(smiles_list)
+
+    # Specify the name of the output CSV file
+    output_csv_name = "ECFP_test_output.csv"
+
+    # Compute ECFP6 fingerprints and save the results to a CSV file
+    ecfp_calculator.compute_ECFP6(output_csv_name)
+
+    # Read the CSV file containing the ECFP6 fingerprints
+    df_ecfp6 = pd.read_csv("ECFP_test_output_ECFP6.csv")
+
+    # Verify the contents of the DataFrame
+    print(df_ecfp6.head())  # Display the first few rows of the DataFrame
   
 </div>
    

@@ -1,7 +1,7 @@
 # UMAP
 <h2 align="center">
   
-  This documentation is to detail how to do a UMAP Projection
+  This documentation details how to perform a UMAP Projection
   <br>
   
   📝 ➡️ 📐 ➡️ 📄
@@ -85,7 +85,7 @@ Sample Code is provided at **UMAP.ipynb** in the *UMAP* folder or click here [UM
           df_ecfp6.to_csv(name[:-4]+'_ECFP6.csv', index=False)
   
 
-  4. **Step 3**: Input SMILES 
+  3. **Step 3**: Input SMILES 
 
 <div> 
    
@@ -109,37 +109,56 @@ Sample Code is provided at **UMAP.ipynb** in the *UMAP* folder or click here [UM
 
     # Verify the contents of the DataFrame
     print(df_ecfp6.head())  # Display the first few rows of the DataFrame
-  
+  <img src="Screenshot 2024-07-24 115240.png" width="60%"/>  <br> 
+
+4. **Step 4**: Create UMAP Projection  
+
 </div>
    
-    pip install openpyxl
+     # Select features for UMAP projection (ECFP6 fingerprints)
+    features = df_ecfp6.drop(columns=['smiles'])
     
 <div> 
    
-    import pandas as pd
+    from umap import UMAP
   
 </div>
+
+    # Perform UMAP projection
+    umap = UMAP(n_components=2)  # Set the number of dimensions for projection
+    umap_projection = umap.fit_transform(features)
+
+</div>
    
-    # Read the Excel file
-    df = pd.read_excel('example_smiles.xlsx')
-    df.head(4)
-<img src="Screenshot 2024-07-22 142052.png" width="40%"/>  <br> 
+     # Visualize the data
+     plt.scatter(umap_projection[:, 0], umap_projection[:, 1], alpha=0.5)
+     plt.title('UMAP Projection of ECFP6 Fingerprints')
+     plt.xlabel('UMAP Component 1')
+     plt.ylabel('UMAP Component 2')
+     plt.show()
+  <img src="Screenshot 2024-07-24 115335.png" width="60%"/>  <br> 
 <div> 
    
-    for _, row in df.iterrows():
-    smile_num = row['Smile #']
-    smiles = row['smiles']
-    
-    # Generate the output file name
-    output_file = f'{smile_num}.xyz'
-    
-    # Convert SMILES to .xyz and save the file
-    smiles_to_xyz(smiles, output_file)
-<br>
-This will have converted all the SMILES string into their respective xyz files.   
-<h2 align="center">
-   The xyz files can then be opened in software like Avogadro to visualize the molecule or be converted into other file formats. <br><br>
-<img src="Screenshot 2024-06-21 at 12.26.24 PM.png" width="60%"/>  <br> 
+    # Create a color map based on the indices you want to highlight
+    indices_to_highlight = [1,100, 802, 903, 104, 105, 306, 207, 308, 409, 501, 111, 212, 613, 814, 415, 616, 117, 118]  # Specify the indices you want to highlight
+    colors = ['red' if i in indices_to_highlight else 'blue' for i in range(len(df))]
+  
+</div>   
+  
+    # Perform UMAP projection
+    umap_model = UMAP(n_components=2)
+    umap_projection = umap_model.fit_transform(features)
+
+<div> 
+
+    # Visualize the data with the color map
+    plt.figure(figsize=(8, 6))
+    plt.scatter(umap_projection[:, 0], umap_projection[:, 1], c=colors, alpha=0.5)
+    plt.title('UMAP Projection of ECFP6 Fingerprints')
+    plt.xlabel('UMAP Component 1')
+    plt.ylabel('UMAP Component 2')
+    plt.show()
+ <img src="Screenshot 2024-07-24 115350.png" width="60%"/>  <br> 
 
 </h2>
 
